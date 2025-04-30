@@ -3,8 +3,8 @@
 ## 1. Requirements
 
 ```
-pip install mmcv-full==1.7.2
-pip install mmsegmentation==0.30.0
+pip install mmcv-full==1.7.2 --no-cache-dir
+pip install mmsegmentation==0.30.0 --no-cache-dir
 ```
 💡 To enable torch>=2.1.0 to support mmcv 1.7.2, you need to make the following changes:  
 > 1️⃣ https://goo.su/XhU5vWr     
@@ -31,14 +31,13 @@ bash scripts/dist_train.sh configs/overlock/upernet_overlock_tiny_ade20k_8xb2.py
 ```
 
 ## 5. Validation
-To evaluate ``OverLoCK-T + UperNet`` model on COCO dataset, run:
+To evaluate ``OverLoCK-T + UperNet`` model on ADE20K dataset, run:
 ```
 bash scripts/dist_test.sh configs/overlock/upernet_overlock_tiny_ade20k_8xb2.py path-to-checkpoint 8 --eval mIoU
 ```
 
 ## Citation
 If you find this project useful for your research, please consider citing:
-
 ```
 @inproceedings{lou2025overlock,
   title={OverLoCK: An Overview-first-Look-Closely-next ConvNet with Context-Mixing Dynamic Kernels},
