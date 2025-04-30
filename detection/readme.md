@@ -3,8 +3,8 @@
 ## 1. Requirements
 
 ```
-pip install mmcv-full==1.7.2
-pip install mmdet==2.28.2
+pip install mmcv-full==1.7.2 --no-cache-dir
+pip install mmdet==2.28.2 --no-cache-dir
 ```
 💡 To enable torch>=2.1.0 to support mmcv 1.7.2, you need to make the following changes:  
 > 1️⃣ https://goo.su/XhU5vWr     
@@ -45,7 +45,6 @@ bash scripts/dist_test.sh $CONFIG $CKPT $NUM_GPUS --eval bbox segm
 
 ## Citation
 If you find this project useful for your research, please consider citing:
-
 ```
 @inproceedings{lou2025overlock,
   title={OverLoCK: An Overview-first-Look-Closely-next ConvNet with Context-Mixing Dynamic Kernels},
