@@ -815,7 +815,7 @@ class OverLoCK(nn.Module):
         
         # ctx_cls = ctx
         ctx_ori = self.high_level_proj(ctx)
-        ctx_up = F.interpolate(ctx_ori, scale_factor=2, mode='bilinear', align_corners=False)
+        ctx_up = F.interpolate(ctx_ori, size=x.shape[2:], mode='bilinear', align_corners=False)
         
         for idx, blk in enumerate(self.sub_blocks3):
             if idx == 0:

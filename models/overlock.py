@@ -487,7 +487,7 @@ class DynamicConvBlock(nn.Module):
     
 
     def _forward_inner(self, x, h_x, h_r):
-             
+        input_resoltion = x.shape[2:]   
         B, C, H, W = x.shape
         B, C_h, H_h, W_h = h_x.shape
         
@@ -501,6 +501,17 @@ class DynamicConvBlock(nn.Module):
         x = self.fusion(x_f)
         gate = self.gate(x)
         lepe = self.lepe(x)
+
+        is_pad = False
+        if min(H, W) < self.kernel_size:
+            is_pad = True
+            if H < W:
+                size = (self.kernel_size, int(self.kernel_size / H * W))
+            else:
+                size = (int(self.kernel_size / W * H), self.kernel_size)
+            x = F.interpolate(x, size=size, mode='bilinear', align_corners=False)
+            x_f = F.interpolate(x_f, size=size, mode='bilinear', align_corners=False)
+            H, W = size
 
         query, key = torch.split(x_f, split_size_or_sections=[C, C_h], dim=1)
         query = self.weight_query(query) * self.scale
@@ -526,6 +537,10 @@ class DynamicConvBlock(nn.Module):
 
         x = torch.cat([x1, x2], dim=1)
         x = rearrange(x, 'b g h w c -> b (g c) h w', h=H, w=W)
+
+        if is_pad:
+            x = F.adaptive_avg_pool2d(x, input_resoltion)
+
         x = self.dyconv_proj(x)
 
         x = x + lepe
@@ -748,6 +763,11 @@ class OverLoCK(nn.Module):
             nn.init.constant_(m.weight, 1.0)
             nn.init.constant_(m.bias, 0)
     
+    def reparm(self):
+        for m in self.modules():
+            if isinstance(m, DilatedReparamBlock):
+                m.merge_dilated_branches()
+            
     def forward_pre_features(self, x):
         
         x = self.patch_embed1(x)
@@ -778,7 +798,7 @@ class OverLoCK(nn.Module):
 
         ctx_cls = ctx
         ctx_ori = self.high_level_proj(ctx)
-        ctx_up = F.interpolate(ctx_ori, scale_factor=2, mode='bilinear', align_corners=False)
+        ctx_up = F.interpolate(ctx_ori, size=x.shape[2:], mode='bilinear', align_corners=False)
         
         for idx, blk in enumerate(self.sub_blocks3):
             if idx == 0:
@@ -915,3 +935,25 @@ def overlock_b(pretrained=None, pretrained_cfg=None, **kwargs):
         load_checkpoint(model, pretrained)
 
     return model
+
+
+if __name__ == '__main__':
+
+    from timm.utils import random_seed
+    random_seed(6)
+
+    device = torch.device('cuda')
+    model = overlock_xt(pretrained=True).to(device) # load pretrained weights
+    model.eval()
+
+    x = torch.randn(1, 3, 224, 224).to(device)
+    y = model(x)
+    print(y.shape)
+
+    # Reparametrize model, more details can be found at: 
+    # https://github.com/AILab-CVC/UniRepLKNet/tree/main
+    model.reparm()
+    z = model(x)
+
+    # Showing difference between original and reparametrized model
+    print((z - y).abs().sum())
