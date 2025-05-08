@@ -73,7 +73,7 @@ python3 validate.py \
 --model $MODEL -b 128 \
 --pretrained # or --checkpoint /path/to/checkpoint 
 ```
->💡 To accelerate inference speed, OverLoCK utilizes [Structural Re-parameterization](https://github.com/AILab-CVC/UniRepLKNet/tree/main). Please refer to here for a simple usage instruction.
+>💡 To accelerate inference speed, OverLoCK utilizes [**Structural Re-parameterization**](https://github.com/AILab-CVC/UniRepLKNet/tree/main). Please refer to [**here**](https://github.com/LMMMEng/OverLoCK/blob/540bf6ed9cca99eab78fc8ab935b71f2a4aa2a2c/models/overlock.py#L945) for a simple usage instruction.
 
 # Citation
 If you find this project useful for your research, please consider citing:
