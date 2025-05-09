@@ -352,17 +352,18 @@ def main(args):
     # args.device = 'cuda:0'
     # args.world_size = 1
     # args.rank = 0  # global rank
-    if 'RANK' in os.environ and 'WORLD_SIZE' in os.environ:
-        args.distributed = True
-        args.rank = int(os.environ["RANK"])
-        args.world_size = int(os.environ['WORLD_SIZE'])
-        args.gpu = int(os.environ['LOCAL_RANK'])
-        # args.device = 'cuda:%d' % args.local_rank
-        
-    elif 'SLURM_PROCID' in os.environ:
-        args.distributed = True
-        args.rank = int(os.environ['SLURM_PROCID'])
-        args.gpu = args.rank % torch.cuda.device_count()
+    if torch.distributed.is_initialized():
+        if 'RANK' in os.environ and 'WORLD_SIZE' in os.environ:
+            args.distributed = True
+            args.rank = int(os.environ["RANK"])
+            args.world_size = int(os.environ['WORLD_SIZE'])
+            args.gpu = int(os.environ['LOCAL_RANK'])
+            # args.device = 'cuda:%d' % args.local_rank
+            
+        elif 'SLURM_PROCID' in os.environ:
+            args.distributed = True
+            args.rank = int(os.environ['SLURM_PROCID'])
+            args.gpu = args.rank % torch.cuda.device_count()
         
     if args.distributed:
         torch.cuda.set_device(args.gpu)
@@ -373,6 +374,9 @@ def main(args):
         _logger.info('Training in distributed mode with multiple processes, 1 GPU per process. Process %d, total %d.'
                      % (args.rank, args.world_size))
     else:
+        args.device = 'cuda'
+        args.world_size = 1
+        args.rank = 0  # global rank
         _logger.info('Training with a single process on 1 GPUs.')
     assert args.rank >= 0
 
