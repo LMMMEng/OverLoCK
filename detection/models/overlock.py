@@ -873,7 +873,7 @@ def overlock_xt(pretrained=False, pretrained_cfg=None, **kwargs):
     )
 
     if pretrained:
-        pretrained = 'https://github.com/LMMMEng/OverLoCK/releases/download/v1/overlock_t_in1k_224.pth'
+        pretrained = 'https://github.com/LMMMEng/OverLoCK/releases/download/v1/overlock_xt_in1k_224.pth'
         logger = get_root_logger()
         load_checkpoint(model, pretrained, logger=logger)
     model._convert_sync_batchnorm()
