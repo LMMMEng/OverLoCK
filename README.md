@@ -62,7 +62,10 @@ bash scripts/train_xt_model.sh # train OverLoCK-XT
 bash scripts/train_t_model.sh  # train OverLoCK-T
 bash scripts/train_s_model.sh  # train OverLoCK-S
 bash scripts/train_b_model.sh  # train OverLoCK-B
-```
+```  
+> 💡If you encounter NaN loss, please delete ``--native-amp`` to disable AMP training and resume the checkpoint before the NaN loss occurred.
+>   
+> 💡If your GPU memory is insufficient, you can enable gradient checkpointing by adding the following arguments: ``--grad-checkpoint --ckpt-stg 4 0 0 0``. If you're still experiencing memory issues, you can increase these values, but be aware that this may slow down training.
 
 ## 5. Validation
 To evaluate ```OverLoCK``` on ImageNet-1K, run:
