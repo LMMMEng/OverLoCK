@@ -27,7 +27,7 @@ Prepare COCO 2017 according to the [guidelines](https://github.com/open-mmlab/mm
 |               |             |    3x    |51.4       |45.3         |[config](configs/maskrcnn_overlock/mask_rcnn_overlock_b_in1k_fpn_3x_coco.py)        |[model](https://github.com/LMMMEng/OverLoCK/releases/download/v1/maskrcnn3x_overlock_base_coco.pth)          |
 
 ## 4. Train
-To train ``OverLoCK-T + Mask R-CNN 1x`` model on COCO dataset with 8 gpus (single node), run:
+To train ``OverLoCK-T + Mask R-CNN 1x`` model on COCO dataset with 8 GPUs (single node), run:
 ```
 NUM_GPUS=8
 CONFIG=configs/maskrcnn_overlock/mask_rcnn_overlock_t_in1k_fpn_1x_coco.py
