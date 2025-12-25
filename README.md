@@ -9,9 +9,9 @@ Top-down attention plays a crucial role in the human vision system, wherein the 
 </center>
 
 # News
-- **Dec. 25, 2025**: To improve inference speed and reduce memory consumption, we provide reparameterized versions of the OverLoCK models with pre-trained weights. These variants achieve identical performance to their original counterparts on ImageNet-1K evaluation. However, if you further fine-tune these reparameterized models, they may yield slightly lower accuracy compared to the original versions. Please choose the model variant during fine-tuning based on memory and accuracy requirements on your side ([More Details](https://github.com/LMMMEng/OverLoCK/blob/81dd7b216e7aa66ff5a95b07021f299dc2d4d14b/models/overlock.py#L941C13-L941C14)).
+- **Dec. 25, 2025**: **To improve inference speed and reduce memory consumption**, we provide **reparameterized versions of the OverLoCK models with pre-trained weights**. These variants achieve **identical performance to their original counterparts on ImageNet-1K evaluation**. However, if you further fine-tune these reparameterized models, they may yield slightly lower accuracy compared to the original versions. Please choose the model variant during fine-tuning based on memory and accuracy requirements on your side ([More Details](https://github.com/LMMMEng/OverLoCK/blob/81dd7b216e7aa66ff5a95b07021f299dc2d4d14b/models/overlock.py#L941C13-L941C14)).
   
-- **May. 16, 2025**: A plug-and-play implementation of the [ContMix block](models/contmix.py) is now available.
+- **May. 16, 2025**: A **plug-and-play implementation of the [ContMix Block](models/contmix.py)** is now available.
 
 # Image Classification
 
