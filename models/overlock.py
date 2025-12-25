@@ -763,7 +763,7 @@ class OverLoCK(nn.Module):
             nn.init.constant_(m.weight, 1.0)
             nn.init.constant_(m.bias, 0)
     
-    def reparm(self):
+    def reparam(self):
         for m in self.modules():
             if isinstance(m, DilatedReparamBlock):
                 m.merge_dilated_branches()
@@ -937,10 +937,67 @@ def overlock_b(pretrained=None, pretrained_cfg=None, **kwargs):
     return model
 
 
-if __name__ == '__main__':
+'''
+Reparameterized versions of OverLoCK models are given, 
+which offer improved efficiency in terms of inference speed and memory consumption.
 
-    from timm.utils import random_seed
-    random_seed(6)
+Note: these variants may come at the cost of lower accuracy *during fine-tuning*, 
+when compared to their original counterparts.
+
+More details about model reparameterization can be found at:
+https://arxiv.org/abs/2311.15599
+'''
+@register_model
+def overlock_xt_reparam(pretrained=False, pretrained_cfg=None, **kwargs):
+    
+    model = overlock_xt(deploy=True)
+    model.default_cfg = _cfg(crop_pct=0.925)
+
+    if pretrained:
+        pretrained = 'https://github.com/LMMMEng/OverLoCK/releases/download/v1/overlock_xt_in1k_224_reparam.pth'
+        load_checkpoint(model, pretrained)
+
+    return model
+
+
+@register_model
+def overlock_t_reparam(pretrained=False, pretrained_cfg=None, **kwargs):
+    
+    model = overlock_t(deploy=True)
+    model.default_cfg = _cfg(crop_pct=0.95)
+
+    if pretrained:
+        pretrained = 'https://github.com/LMMMEng/OverLoCK/releases/download/v1/overlock_t_in1k_224_reparam.pth'
+        load_checkpoint(model, pretrained)
+
+    return model
+
+
+@register_model
+def overlock_s_reparam(pretrained=False, pretrained_cfg=None, **kwargs):
+    
+    model = overlock_s(deploy=True)
+    model.default_cfg = _cfg(crop_pct=0.95)
+
+    if pretrained:
+        pretrained = 'https://github.com/LMMMEng/OverLoCK/releases/download/v1/overlock_s_in1k_224_reparam.pth'
+    
+    return model
+
+
+@register_model
+def overlock_b_reparam(pretrained=False, pretrained_cfg=None, **kwargs):
+    
+    model = overlock_b(deploy=True)
+    model.default_cfg = _cfg(crop_pct=0.975)
+
+    if pretrained:
+        pretrained = 'https://github.com/LMMMEng/OverLoCK/releases/download/v1/overlock_b_in1k_224_reparam.pth'
+    
+    return model
+
+
+if __name__ == '__main__':
 
     device = torch.device('cuda')
     model = overlock_xt(pretrained=True).to(device) # load pretrained weights
@@ -950,10 +1007,12 @@ if __name__ == '__main__':
     y = model(x)
     print(y.shape)
 
-    # Reparametrize model, more details can be found at: 
+    # Reparametrized model, more details can be found at: 
     # https://github.com/AILab-CVC/UniRepLKNet/tree/main
-    model.reparm()
+    model = overlock_xt_reparam(pretrained=True).to(device) # load pretrained weights
+    model.eval()
     z = model(x)
+    print(z.shape)
 
     # Showing difference between original and reparametrized model
-    print((z - y).abs().sum())
+    print((y-z).mean())
