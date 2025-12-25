@@ -8,6 +8,11 @@ Top-down attention plays a crucial role in the human vision system, wherein the 
 <img src="images/img.jpg" width="70%" height="auto">
 </center>
 
+# News
+- **Dec. 25, 2025**: To improve inference speed and reduce memory consumption, we provide reparameterized versions of the OverLoCK models with pre-trained weights. These variants achieve identical performance to their original counterparts on ImageNet-1K evaluation. However, if you further fine-tune these reparameterized models, they may yield slightly lower accuracy compared to the original versions. Please choose the model variant during fine-tuning based on memory and accuracy requirements on your side ([More Details](https://github.com/LMMMEng/OverLoCK/blob/81dd7b216e7aa66ff5a95b07021f299dc2d4d14b/models/overlock.py#L941C13-L941C14)).
+  
+- **May. 16, 2025**: A plug-and-play implementation of the [ContMix block](models/contmix.py) is now available.
+
 # Image Classification
 
 ## 1. Requirements
@@ -65,7 +70,7 @@ bash scripts/train_b_model.sh  # train OverLoCK-B
 ```  
 > 💡If you encounter NaN loss, please delete ``--native-amp`` to disable AMP training and resume the checkpoint before the NaN loss occurred.
 >   
-> 💡If your GPU memory is insufficient, you can enable gradient checkpointing by adding the following arguments: ``--grad-checkpoint --ckpt-stg 4 0 0 0``. If you're still experiencing memory issues, you can increase these values, but be aware that this may slow down training.
+> 💡If your **GPU memory** is insufficient during training, you can enable gradient checkpointing by adding the following arguments: ``--grad-checkpoint --ckpt-stg 4 0 0 0``. If you're still experiencing memory issues, you can increase these values, but be aware that this may slow down training speed.
 
 ## 5. Validation
 To evaluate ```OverLoCK``` on ImageNet-1K, run:
@@ -89,6 +94,10 @@ If you find this project useful for your research, please consider citing:
   year={2025}
 }
 ```
+
+# Dense Predictions
+[Object Detection](detection)  
+[Semantic Segmentation](segmentation)   
 
 # Acknowledgment
 Our implementation is mainly based on the following codebases. We gratefully thank the authors for their wonderful works.  
