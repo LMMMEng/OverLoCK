@@ -83,25 +83,25 @@ python3 validate.py \
 ```
 >💡 To accelerate inference speed, OverLoCK utilizes [**Structural Re-parameterization**](https://github.com/AILab-CVC/UniRepLKNet/tree/main). Please refer to [**here**](https://github.com/LMMMEng/OverLoCK/blob/540bf6ed9cca99eab78fc8ab935b71f2a4aa2a2c/models/overlock.py#L945) for a simple usage instruction.
 
-# Citation
-If you find this project useful for your research, please consider citing:
-```
-@inproceedings{lou2025overlock,
-  title={OverLoCK: An Overview-first-Look-Closely-next ConvNet with Context-Mixing Dynamic Kernels},
-  author={Lou, Meng and Yu, Yizhou},
-  booktitle={IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-  pages={128--138},
-  year={2025}
-}
-```
-
 # Dense Predictions
 [Object Detection](detection)  
 [Semantic Segmentation](segmentation)   
 
 # Acknowledgment
 Our implementation is mainly based on the following codebases. We gratefully thank the authors for their wonderful works.  
-> [timm](https://github.com/rwightman/pytorch-image-models), [natten](https://github.com/SHI-Labs/NATTEN), [unireplknet](https://github.com/AILab-CVC/UniRepLKNet), [mmcv](https://github.com/open-mmlab/mmcv), [mmdet](https://github.com/open-mmlab/mmdetection), [mmseg](https://github.com/open-mmlab/mmsegmentation)  
+> [timm](https://github.com/rwightman/pytorch-image-models), [natten](https://github.com/SHI-Labs/NATTEN), [unireplknet](https://github.com/AILab-CVC/UniRepLKNet), [mmcv](https://github.com/open-mmlab/mmcv), [mmdet](https://github.com/open-mmlab/mmdetection), [mmseg](https://github.com/open-mmlab/mmsegmentation)
+
+# Citation
+If you find this project useful for your research, please consider citing:
+```
+@inproceedings{lou2025overlock,
+  title={OverLoCK: An Overview-first-Look-Closely-next ConvNet with Context-Mixing Dynamic Kernels},
+  author={Lou, Meng and Yu, Yizhou},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={128--138},
+  year={2025}
+}
+```
 
 # Contact
 If you have any questions, please feel free to [create issues❓](https://github.com/LMMMEng/OverLoCK/issues) or [contact me 📧](lmzmm.0921@gmail.com).
